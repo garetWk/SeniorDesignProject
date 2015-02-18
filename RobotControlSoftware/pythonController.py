@@ -15,6 +15,7 @@ for use with Arduino "RobotControl" sketch.
 ################################################
 
 import serial
+from os import system
 
 # Assign Arduino's serial port address
 #   Windows example
@@ -24,10 +25,10 @@ import serial
 #   MacOSX example
 #     usbport = '/dev/tty.usbserial-FTALLOK2'
 
-usbport = '/dev/tty.usbmodemfd121'
+usbport = '/dev/tty.usbmodemfa131'
 
 # Set up serial baud rate
-ser = serial.Serial(usbport, 9600, timeout=1)
+ser = serial.Serial(usbport,9600,timeout=None)
 
 def servo(servo, angle):
    '''Moves the specified servo to the supplied angle.
@@ -44,6 +45,14 @@ def servo(servo, angle):
       ser.write('g')
       ser.write(chr(servo))
       ser.write(chr(angle))
+      
+      '''system("echo 'g' > /dev/ttyACM0")
+      cmd = "echo " + str(servo) + " > /dev/ttyACM0"
+      print(cmd)
+      system(cmd)
+      cmd = "echo " + str(angle) + " > /dev/ttyACM0"
+      print(cmd)
+      system(cmd)'''
    else:
       print("Servo angle must be an integer between 0 and 180.\n")
 

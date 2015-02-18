@@ -52,10 +52,10 @@ Servo servo2;
 //   etc...
 
 // DC motor pins for each motor
-int direction_pin_motorL[] = {0, 6};  // digital pins 
+int direction_pin_motorL[] = {12, 13};  // digital pins 
 int speed_pin_motorL = 5;  // pwm pins
 int direction_pin_motorR[] = {50, 51}; 
-int speed_pin_motorR = 1;
+int speed_pin_motorR = 3;
 
 // Create a Stepper object for each Steppermotor
 Stepper stepper1(STEPS_PER_MOTOR_REVOLUTION, 40, 41, 42, 43); // digital pins
@@ -92,7 +92,7 @@ void setup(){
      pinMode(direction_pin_motorR[i], OUTPUT);  
   }  
   pinMode(5, OUTPUT);  
-  pinMode(1, OUTPUT);
+  pinMode(3, OUTPUT);
   
   // Stepper pinmodes
   pinMode(40, OUTPUT);
@@ -107,18 +107,20 @@ void setup(){
 }
 
 void loop(){
+  delay(100);
+  if(Serial.available() > 0) {
         startCmd = Serial.read();
         Serial.println(startCmd);
                
         switch ( startCmd ) {
               case 'g':
                     for (int i=0;i<2;i++) {
-                       userInput[i] = Serial.read();
+                       userInput[i] = (int) Serial.read();
                     }
                     // First byte = servo to move?
                     servo = userInput[0];
                     // Second byte = which position?
-                    pos = userInput[1];
+                    pos = constrain(userInput[1],0,180);
                     // Packet error checking and recovery
                     //if (pos == 255) { servo = 255; }
                     
@@ -142,6 +144,8 @@ void loop(){
                     motorDirection = userInput[1];
                     motorSpeed = userInput[2];
                     
+                    Serial.println(motorSpeed);
+                    
                     switch (motor) {
                         case 1:
                             if (motorDirection == 'f') {
@@ -156,7 +160,8 @@ void loop(){
                             }
                             else {
                                 // motor direction invalid 
-                            }    
+                            }  
+                          Serial.println("updating speed");  
                             analogWrite(speed_pin_motorL, motorSpeed);
                             break;
                         case 2:
@@ -176,6 +181,7 @@ void loop(){
                             analogWrite(speed_pin_motorR, motorSpeed);
                             break;
                     }
+                    break;
               case 'k':
                     for (int i=0;i<2;i++) {
                       userInput[i] = Serial.read();
@@ -248,10 +254,13 @@ void loop(){
                             }
                             break;
                     }
+                    break;
                     
               default:
                     Serial.println("error no command");
+                    break;
         }
-  
+  }
+  delay(100);
    
 }
