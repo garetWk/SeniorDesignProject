@@ -100,8 +100,21 @@ void setup(){
   pinMode(42,OUTPUT);
   pinMode(43,OUTPUT);
 
+// setting initial motor position and speeds
   stepper1.setSpeed(STEPPER_SPEED);
-  prev = 0; 
+  prev = 0;
+  next = 0;
+  servo1.write(45);
+  servo2.write(90);
+  
+  digitalWrite(direction_pin_motorL[1], HIGH);  
+  digitalWrite(direction_pin_motorL[0], LOW);
+  analogWrite(speed_pin_motorL, 0);
+  
+  digitalWrite(direction_pin_motorR[1], HIGH);  
+  digitalWrite(direction_pin_motorR[0], LOW);
+  analogWrite(speed_pin_motorR, 0);
+   
   
   Serial.begin(9600);
 }
@@ -190,69 +203,13 @@ void loop(){
                     stepper = userInput[0];
                     ext = userInput[1];
                     
-                    
-                    switch (stepper) {
+                    switch(stepper) {
                         case 1:
-                            switch (ext) {
-                                case 0:
-                                    next = MAX_EXTENSION * 0;
-                                    steps = next - prev;
-                                    stepper1.step(steps);
-                                    break;
-                                case 1:
-                                    next = MAX_EXTENSION * (1/10);
-                                    steps = next - prev;
-                                    stepper1.step(steps);
-                                    break;
-                                case 2:
-                                    next = MAX_EXTENSION * (2/10);
-                                    steps = next - prev;
-                                    stepper1.step(steps);
-                                    break;
-                                case 3:
-                                    next = MAX_EXTENSION * (3/10);
-                                    steps = next - prev;
-                                    stepper1.step(steps);
-                                    break;
-                                case 4:
-                                    next = MAX_EXTENSION * (4/10);
-                                    steps = next - prev;
-                                    stepper1.step(steps);
-                                    break;
-                                case 5:
-                                    next = MAX_EXTENSION * (5/10);
-                                    steps = next - prev;
-                                    stepper1.step(steps);
-                                    break;
-                                case 6:
-                                    next = MAX_EXTENSION * (6/10);
-                                    steps = next - prev;
-                                    stepper1.step(steps);
-                                case 7:
-                                    next = MAX_EXTENSION * (7/10);
-                                    steps = next - prev;
-                                    stepper1.step(steps);
-                                    break;
-                                case 8:
-                                    next = MAX_EXTENSION * (8/10);
-                                    steps = next - prev;
-                                    stepper1.step(steps);
-                                    break;
-                                case 9:
-                                    next = MAX_EXTENSION * (9/10);
-                                    steps = next - prev;
-                                    stepper1.step(steps);
-                                    break;
-                                case 10:
-                                    next = MAX_EXTENSION * (10/10);
-                                    steps = next - prev;
-                                    stepper1.step(steps);
-                                    break;
-                                default:
-                                    // not mapped above 10
-                                    break;
-                            }
-                            break;
+                          next = MAX_EXTENSION * (ext/10);
+                          steps = next - prev;
+                          stepper1.step(steps);
+                          prev = next;
+                          break;
                     }
                     break;
                     
