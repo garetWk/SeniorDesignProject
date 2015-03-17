@@ -38,7 +38,7 @@ if __name__ == '__main__':
 
     except Exception as e:
         log = open("log.txt", 'a')
-        msg = '\n' + 'SSL Error on ' + now() + ' by ' + address + '\n'
+        msg = '\n' + 'SSL Error on ' + ' by ' + address + '\n'
         log.write(msg)
         log.write(str(e))
         log.write('\n')
