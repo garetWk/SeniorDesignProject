@@ -31,7 +31,6 @@ void MySocket::writeMotorL(int value)
     }
 
 
-
     socket->write(msg.c_str());
 }
 
