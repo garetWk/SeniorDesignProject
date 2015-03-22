@@ -72,13 +72,13 @@ def dcmotor(motor, direction, speed):
            ... # move DCmotor #1 at a speed 100 forward '''
 
     if( direction == 'f' or direction == 'r' ):
-        if(0 <= speed <= 255):
+        #if(0 <= speed <= 255):
             ser.write('w')
             ser.write(chr(motor))
             ser.write(direction)
             ser.write(chr(speed))           
-        else:
-            print("motor speed must be an integer between 0 and 255.\n")
+        #else:
+            #print("motor speed must be an integer between 0 and 255.\n")
 
     else:
         print("motor direction must be f or r .\n")
