@@ -89,6 +89,8 @@ ApplicationWindow {
         button2.onClicked: { mainItem.visible = false; screen1.visible = true; screen2.visible = false }
         button3.onClicked: { mainItem.visible = false; screen1.visible = false; screen2.visible = true }
 
+        button4.onClicked: { socket.connect(textField1.text,textField2.text); button4.enabled = false; }
+
     }
 
 

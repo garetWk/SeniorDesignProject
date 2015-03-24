@@ -7,12 +7,12 @@ from os import system
 
 import select
 
-serverIP = '127.0.0.1'
-serverPort = 50007
+serverIP = '10.88.211.244'
+serverPort = 50008
 
 usbport = '/dev/tty.usbmodemfa131'
 
-ser = serial.Serial(usbport,9600,timeout=None)
+#ser = serial.Serial(usbport,9600,timeout=None)
 
 
 
@@ -37,6 +37,7 @@ if __name__ == '__main__':
     serverUDP = socket(AF_INET, SOCK_DGRAM)
     
     print("started")
+    print("at host: " + str(serverIP) + "port: " + str(serverPort))
 
     try:
         connection, address = serverTCP.accept()
@@ -83,7 +84,7 @@ if __name__ == '__main__':
             
             msg = connection.recv(1024).decode().split("-")
             print(msg)
-
+'''
             if msg[0] == 'e':
                 ser.write('e')
                 ser.write(chr(int(msg[1])))
@@ -118,7 +119,7 @@ if __name__ == '__main__':
                 elif msg[1] == 'r':
                     ser.write('r')
                 ser.write(chr(int(msg[2])))
-
+'''
            
                 
 

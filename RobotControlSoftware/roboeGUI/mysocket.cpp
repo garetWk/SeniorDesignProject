@@ -8,12 +8,18 @@ using namespace std;
 MySocket::MySocket(QObject *parent) : QObject(parent)
 {
     socket = new QTcpSocket(this);
-    socket->connectToHost(QStringLiteral("127.0.0.1"),50007);
 }
 
 MySocket::~MySocket()
 {
 
+}
+
+void MySocket::connect(QString host, QString port)
+{
+
+    socket->connectToHost(host,port.toInt());
+    //cout << "connected to host: " << host.toStdString() << endl;
 }
 
 void MySocket::writeMotorL(int value)

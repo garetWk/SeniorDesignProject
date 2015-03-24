@@ -14,6 +14,8 @@ public:
 signals:
 
 public slots:
+    void connect(QString host, QString port);
+
     void writeMotorL(int value);
     void writeMotorR(int value);
     void writeMotorLR(int value);

@@ -16,6 +16,9 @@ Rectangle {
     property alias button2: button2
     property alias button1: button1
     property alias mainItem: mainItem
+    property alias textField1: textField1
+    property alias textField2: textField2
+    property alias button4: button4
 
 
     Item {
@@ -27,7 +30,7 @@ Rectangle {
 
         Text {
             id: textArea1
-            text: "socket information TBD"
+            text: "socket information"
             font.pointSize: 30
             font.family: "Verdana"
             textFormat: Text.PlainText
@@ -60,6 +63,52 @@ Rectangle {
                 id: button3
                 text: qsTr("Screen2")
             }
+        }
+
+        TextField {
+            id: textField1
+            anchors.top: textArea1.bottom
+            anchors.horizontalCenter: textArea1.horizontalCenter
+            anchors.margins: 15
+            width: 400
+            height: 120
+            font.pixelSize: 35
+            placeholderText: qsTr("type host")
+        }
+
+        Label {
+            id: label1
+            anchors.right: textField1.left
+            anchors.verticalCenter: textField1.verticalCenter
+            anchors.margins: 5
+            text: qsTr("HostAddress:")
+        }
+
+        TextField {
+            id: textField2
+            anchors.top: textField1.bottom
+            anchors.horizontalCenter: textField1.horizontalCenter
+            anchors.margins: 15
+            width: 400
+            height: 120
+            font.pixelSize: 35
+            placeholderText: qsTr("type port")
+        }
+
+        Label {
+            id: label2
+            anchors.right: textField2.left
+            anchors.verticalCenter: textField2.verticalCenter
+            anchors.margins: 5
+            text: qsTr("PortNumber:")
+        }
+
+        Button {
+            id: button4
+            anchors.top: textField2.bottom
+            anchors.horizontalCenter: textField2.horizontalCenter
+            anchors.margins: 15
+            text: qsTr("Connect Now")
         }
 
 
