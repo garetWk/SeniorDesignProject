@@ -57,11 +57,13 @@ Rectangle {
             Button {
                 id: button2
                 text: qsTr("Screen1")
+                enabled: false
             }
 
             Button {
                 id: button3
                 text: qsTr("Screen2")
+                enabled: false
             }
         }
 

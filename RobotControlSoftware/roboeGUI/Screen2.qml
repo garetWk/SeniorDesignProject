@@ -27,7 +27,7 @@ Item {
 
     Slider {
         id: sliderVertical1
-        maximumValue: 20
+        maximumValue: 10
         minimumValue: 0
         stepSize: 1
         value: 0
@@ -49,7 +49,7 @@ Item {
         anchors.leftMargin: 15
         anchors.top: parent.top
         anchors.topMargin: 15
-        text: qsTr("0/20")
+        text: qsTr("0/10")
         font.pixelSize: 50
     }
 

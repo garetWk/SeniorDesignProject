@@ -119,8 +119,8 @@ if __name__ == '__main__':
                 elif msg[1] == 'r':
                     ser.write('r')
                 ser.write(chr(int(msg[2])))
-'''
-           
+
+ '''          
                 
 
             
