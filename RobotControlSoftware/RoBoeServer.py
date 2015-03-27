@@ -9,12 +9,12 @@ import struct
 
 import select
 
-serverIP = '192.168.0.101'
+serverIP = '10.88.211.244'
 serverPort = 50008
 
 usbport = '/dev/tty.usbmodemfa131'
 
-#ser = serial.Serial(usbport,9600,timeout=None)
+ser = serial.Serial(usbport,115200,timeout=None)
 
 
 
@@ -87,28 +87,46 @@ if __name__ == '__main__':
             msg = connection.recv(11).decode()
             print(msg)
             msg = msg.split('-')
-            print(msg)
+            #print(msg)
 
 
             if msg[0] == 'e':
+                ser.write(chr(16))
                 ser.write('e')
                 ser.write(chr(int(msg[1])))
+                ser.write(chr(4))
+                ser.write(chr(4))
+                ser.write(chr(4))
 
             
             if msg[0] == 'r':
+                ser.write(chr(16))
                 ser.write('r')
                 ser.write(chr(int(msg[1])))
+                ser.write(chr(4))
+                ser.write(chr(4))
+                ser.write(chr(4))
 
             if msg[0] == 'x':
+                ser.write(chr(16))
                 ser.write('x')
                 ser.write(chr(int(msg[1])))
+                ser.write(chr(4))
+                ser.write(chr(4))
+                ser.write(chr(4))
+                
                 
 
             if msg[0] == 'g':
+                ser.write(chr(16))
                 ser.write('g')
                 ser.write(chr(int(msg[1])))
+                ser.write(chr(4))
+                ser.write(chr(4))
+                ser.write(chr(4))
 
             if msg[0] == 'w':
+                ser.write(chr(16))
                 ser.write('w')
                 ser.write(chr(int(msg[1])))
                 if msg[2] == 'f':
@@ -116,14 +134,18 @@ if __name__ == '__main__':
                 elif msg[2] == 'r':
                     ser.write('r')
                 ser.write(chr(int(msg[3])))
+                ser.write(chr(4))
+                
 
             if msg[0] == 'b':
+                ser.write(chr(16))
                 ser.write('b')
                 if msg[1] == 'f':
                     ser.write('f')
                 elif msg[1] == 'r':
                     ser.write('r')
-                ser.write(chr(int(msg[2])))              
+                ser.write(chr(int(msg[2])))
+                ser.write(chr(4))
 
             
                 

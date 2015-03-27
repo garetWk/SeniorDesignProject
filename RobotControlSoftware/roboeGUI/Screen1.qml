@@ -26,6 +26,7 @@ Item {
 
     Slider {
         id: sliderVertical1
+        updateValueWhileDragging: true
         tickmarksEnabled: true
         stepSize: 10
         minimumValue: -250
