@@ -83,8 +83,12 @@ int diff;
 float frac;
 
 
-int startCmd;
-int userInput[3];    // raw input from serial buffer, 3 bytes max
+int inputByte_0;
+int inputByte_1;
+int inputByte_2;
+int inputByte_3;
+int inputByte_4;
+int inputByte_5;
 
 
 void setup(){
@@ -122,223 +126,181 @@ void setup(){
   analogWrite(speed_pin_motorR, 0);
    
   
-  Serial.begin(9600);
+  Serial.begin(115200);
+  Serial.flush();
   delay(1000);
 }
 
 void loop(){
-  delay(100);
-  if(Serial.available() > 0) {
-        startCmd = Serial.read();
-        Serial.println(startCmd);
-               
-        switch ( startCmd ) {
-            /*
-              case 'g':
-                    for (int i=0;i<2;i++) {
-                       userInput[i] = (int) Serial.read();
-                    }
-                    // First byte = servo to move?
-                    servo = userInput[0];
-                    // Second byte = which position?
-                    pos = constrain(userInput[1],0,180);
-                    // Packet error checking and recovery
-                    //if (pos == 255) { servo = 255; }
-                    
-                    // Assign new position to appropriate servo
-                    switch (servo) {
-                        case 1:
-                          servo1.write(pos);    // move servo1 to 'pos'
-                          break;
-                        case 2:
-                          servo2.write(pos);
-                          break;
-                    }
-                    break;
-             */
-              
-              case 'e':
-                    //Serial.println("case e");
-                    for (int i=0; i< 1; i++){
-                        userInput[i] = (int) Serial.read();
-                    }
-                    pos = constrain(userInput[0],0,243);
-                    realpos = 1023 - pos;
-                    Dynamixel.move(1,realpos);
-                    break;
-                    
-              case 'r':
-                    //Serial.println("case r");
-                    for (int i=0; i< 1; i++){
-                        userInput[i] = (int) Serial.read();
-                    }
-                    pos = constrain(userInput[0],0,180);
-                    
-                    servo1.write(pos);
-                    break;
-                    
-              case 'x':
-                    //Serial.println("case x");
-                    for (int i=0; i< 1; i++){
-                        userInput[i] = (int) Serial.read();
-                    }
-                    ext = int(userInput[0]);
-                    //Serial.println(ext);
-                    
-                    frac = (float(ext) / float(10));
-                              
-                    next = (28800 * (frac));
-                    Serial.println(next);
-                    Serial.println(prev);
-                    
-                    if (next > prev){
-                        digitalWrite(direction_pin_stepper, LOW);
-                        while (next > prev){
-                            digitalWrite(step_pin_stepper, HIGH);
-                            delayMicroseconds(800);
-                            digitalWrite(step_pin_stepper, LOW);
-                            delayMicroseconds(800);
-                            
-                            prev = prev + 1;
+  if(Serial.available() >= 6) {
+       //Read buffer
+      inputByte_0 = (int) Serial.read();
+        
+      inputByte_1 = (int) Serial.read();
+         
+      inputByte_2 = (int) Serial.read();
+          
+      inputByte_3 = (int) Serial.read();
+    
+      inputByte_4 = (int) Serial.read(); 
+    
+      inputByte_5 = (int)  Serial.read();
+      
+      if(inputByte_0 == 16) {          
+          switch ( inputByte_1 ) {
+                  
+                  case 'e':
+                        //Serial.println("case e");
+                        
+                        pos = constrain(inputByte_2,0,243);
+                        realpos = 1023 - pos;
+                        Dynamixel.move(1,realpos);
+                        break;
+                        
+                  case 'r':
+                        //Serial.println("case r");
+                        
+                        pos = constrain(inputByte_2,0,180);
+                        
+                        servo1.write(pos);
+                        break;
+                        
+                  case 'x':
+                        //Serial.println("case x");
+                        
+                        //ext = inputByte_2;
+                        //Serial.println(ext);
+                        
+                        frac = (float(inputByte_2) / float(10));
+                                  
+                        next = (28800 * (frac));
+                        Serial.println(next);
+                        Serial.println(prev);
+                        
+                        if (next > prev){
+                            digitalWrite(direction_pin_stepper, LOW);
+                            while (next > prev){
+                                digitalWrite(step_pin_stepper, HIGH);
+                                delayMicroseconds(800);
+                                digitalWrite(step_pin_stepper, LOW);
+                                delayMicroseconds(800);
+                                
+                                prev = prev + 1;
+                            }
+                            Serial.println("finished moving");
+                        }
+                        else if (next < prev){
+                            digitalWrite(direction_pin_stepper, HIGH);
+                            while (next < prev){
+                                digitalWrite(step_pin_stepper, HIGH);
+                                delayMicroseconds(800);
+                                digitalWrite(step_pin_stepper, LOW);
+                                delayMicroseconds(800);
+                                
+                                prev = prev - 1;
+                            }
+                            Serial.println("finished moving");
                         }
                         
-                    }
-                    else if (next < prev){
-                        digitalWrite(direction_pin_stepper, HIGH);
-                        while (next < prev){
-                            digitalWrite(step_pin_stepper, HIGH);
-                            delayMicroseconds(800);
-                            digitalWrite(step_pin_stepper, LOW);
-                            delayMicroseconds(800);
-                            
-                            prev = prev - 1;
-                        }
+                        break;
                         
-                    }
-                    
-                    break;
-                    
-              case 'g':
-                    //Serial.println("case g");
-                    for (int i=0; i< 1; i++){
-                        userInput[i] = (int) Serial.read();
-                    }
-                    pos = constrain(userInput[0],0,173);
-                    realpos = 1023 - pos;
-                    Dynamixel.move(2,realpos);
-                    break;
-                    
-              case 'w':
-                    //Serial.println("case w");
-                    for (int i=0;i<3;i++) {
-                        userInput[i] = Serial.read();
-                    }
-                    
-                    motor = userInput[0];
-                    motorDirection = userInput[1];
-                    motorSpeed = userInput[2];
-                    
-                    Serial.println(motorSpeed);
-                    
-                    switch (motor) {
-                        case 1:
-                            if (motorDirection == 'f') {
-                                digitalWrite(direction_pin_motorL[1], HIGH);  
-                                digitalWrite(direction_pin_motorL[0], LOW);
-                                //Serial.println("motor 1 f");
-                            }
-                            else if (motorDirection == 'r') {
-                                digitalWrite(direction_pin_motorL[1], LOW);  
-                                digitalWrite(direction_pin_motorL[0], HIGH);
-                                //Serial.println("motor 1 r");
-                            }
-                            else {
-                                // motor direction invalid 
-                            }  
-                          //Serial.println("updating speed");  
-                            analogWrite(speed_pin_motorL, motorSpeed);
-                            break;
-                        case 2:
-                            if (motorDirection == 'f') {
-                                digitalWrite(direction_pin_motorR[1], HIGH);  
-                                digitalWrite(direction_pin_motorR[0], LOW); 
-                                //Serial.println("motor 2 f");
-                            }
-                            else if (motorDirection == 'r') {
-                                digitalWrite(direction_pin_motorR[1], LOW);  
-                                digitalWrite(direction_pin_motorR[0], HIGH);
-                                //Serial.println("motor 2 r");
-                            }
-                            else {
-                                //motor direction invalid
-                            } 
-                            analogWrite(speed_pin_motorR, motorSpeed);
-                            break;
-                    }
-                    break;
-                    
-              case 'b':
-                    //Serial.println("case b");
-                    for (int i=0;i<2;i++) {
-                        userInput[i] = Serial.read();
-                    }
-                    
-                    motorDirection = userInput[0];
-                    motorSpeed = userInput[1];
-                    
-                    //Serial.println(motorSpeed);
-                    
-
-                    if (motorDirection == 'f') {
-                        digitalWrite(direction_pin_motorL[1], HIGH);  
-                        digitalWrite(direction_pin_motorL[0], LOW);
-                        //Serial.println("motor 1 f");
-                        digitalWrite(direction_pin_motorR[1], HIGH);  
-                        digitalWrite(direction_pin_motorR[0], LOW); 
-                        //Serial.println("motor 2 f");
-                    }
-                    else if (motorDirection == 'r') {
-                        digitalWrite(direction_pin_motorL[1], LOW);  
-                        digitalWrite(direction_pin_motorL[0], HIGH);
-                        //Serial.println("motor 1 r");
-                        digitalWrite(direction_pin_motorR[1], LOW);  
-                        digitalWrite(direction_pin_motorR[0], HIGH);
-                        //Serial.println("motor 2 r");
-                    }
-                    else {
-                        // motor direction invalid 
-                    }  
-                    //Serial.println("updating speed");  
-                    analogWrite(speed_pin_motorL, motorSpeed);
-                    analogWrite(speed_pin_motorR, motorSpeed);
-                    break;
-              
-              
-              /*
-              case 'k':
-                    for (int i=0;i<2;i++) {
-                      userInput[i] = Serial.read();
-                    }
-                    
-                    stepper = userInput[0];
-                    ext = userInput[1];
-                    
-                    switch(stepper) {
-                        case 1:
-                          next = MAX_EXTENSION * (ext/10);
-                          steps = next - prev;
-                          stepper1.step(steps);
-                          prev = next;
-                          break;
-                    }
-                    break;
-              */
-                    
-              default:
-                    Serial.println("error no command");
-                    break;
-        }
+                  case 'g':
+                        //Serial.println("case g");
+                        
+                        pos = constrain(inputByte_2,0,173);
+                        realpos = 1023 - pos;
+                        Dynamixel.move(2,realpos);
+                        break;
+                        
+                  case 'w':
+                        //Serial.println("case w");
+                        
+                        motor = inputByte_2;
+                        motorDirection = inputByte_3;
+                        motorSpeed = inputByte_4;
+                        
+                        switch (motor) {
+                            case 1:
+                                if (motorDirection == 'f') {
+                                    digitalWrite(direction_pin_motorL[1], HIGH);  
+                                    digitalWrite(direction_pin_motorL[0], LOW);
+                                    //Serial.println("motor 1 f");
+                                }
+                                else if (motorDirection == 'r') {
+                                    digitalWrite(direction_pin_motorL[1], LOW);  
+                                    digitalWrite(direction_pin_motorL[0], HIGH);
+                                    //Serial.println("motor 1 r");
+                                }
+                                else {
+                                    // motor direction invalid 
+                                }  
+                              //Serial.println("updating speed");  
+                                analogWrite(speed_pin_motorL, motorSpeed);
+                                break;
+                            case 2:
+                                if (motorDirection == 'f') {
+                                    digitalWrite(direction_pin_motorR[1], HIGH);  
+                                    digitalWrite(direction_pin_motorR[0], LOW); 
+                                    //Serial.println("motor 2 f");
+                                }
+                                else if (motorDirection == 'r') {
+                                    digitalWrite(direction_pin_motorR[1], LOW);  
+                                    digitalWrite(direction_pin_motorR[0], HIGH);
+                                    //Serial.println("motor 2 r");
+                                }
+                                else {
+                                    //motor direction invalid
+                                } 
+                                analogWrite(speed_pin_motorR, motorSpeed);
+                                break;
+                        }
+                        break;
+                        
+                  case 'b':
+                        //Serial.println("case b");
+                        
+                        motorDirection = inputByte_2;
+                        motorSpeed = inputByte_3;
+      
+                        if (motorDirection == 'f') {
+                            digitalWrite(direction_pin_motorL[1], HIGH);  
+                            digitalWrite(direction_pin_motorL[0], LOW);
+                            //Serial.println("motor 1 f");
+                            digitalWrite(direction_pin_motorR[1], HIGH);  
+                            digitalWrite(direction_pin_motorR[0], LOW); 
+                            //Serial.println("motor 2 f");
+                        }
+                        else if (motorDirection == 'r') {
+                            digitalWrite(direction_pin_motorL[1], LOW);  
+                            digitalWrite(direction_pin_motorL[0], HIGH);
+                            //Serial.println("motor 1 r");
+                            digitalWrite(direction_pin_motorR[1], LOW);  
+                            digitalWrite(direction_pin_motorR[0], HIGH);
+                            //Serial.println("motor 2 r");
+                        }
+                        else {
+                            // motor direction invalid 
+                        }  
+                        //Serial.println("updating speed");  
+                        analogWrite(speed_pin_motorL, motorSpeed);
+                        analogWrite(speed_pin_motorR, motorSpeed);
+                        break;
+                        
+                  default:
+                        Serial.println("error no command");
+                        break;
+            }  
+      }
+      else{
+        Serial.println("first byte not 16 error");
+      }
+      
+      inputByte_0 = 0;
+      inputByte_1 = 0;
+      inputByte_2 = 0;
+      inputByte_3 = 0;
+      inputByte_4 = 0;
+      inputByte_5 = 0;
   }
-  delay(100);
    
 }

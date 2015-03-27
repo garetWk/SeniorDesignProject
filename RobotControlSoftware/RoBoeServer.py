@@ -146,6 +146,7 @@ if __name__ == '__main__':
                     ser.write('r')
                 ser.write(chr(int(msg[2])))
                 ser.write(chr(4))
+                ser.write(chr(4))
 
             
                 

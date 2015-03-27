@@ -58,7 +58,8 @@ void setup(){
   
   
   Serial.begin(115200);
-  delay(1000);
+  Serial.flush();
+  delay(1000); 
 }
 
 void loop(){
@@ -98,26 +99,13 @@ void loop(){
       Serial.println("fist bytte not 16");
     }
     
-    inputByte_0 = 0;
-    inputByte_1 = 0;
-    inputByte_2 = 0;
-    inputByte_3 = 0;
-    inputByte_4 = 0;
-    inputByte_5 = 0;
-  }
-
-
-
-   /*            
-        switch ( startCmd ) {
-          
-              
+    
+    switch ( inputByte_1 ) {
+      
               case 'e':
                     //Serial.println("case e");
-                    for (int i=0; i< 1; i++){
-                        userInput[i] = (int) Serial.read();
-                    }
-                    pos = constrain(userInput[0],0,243);
+                    
+                    pos = constrain(inputByte_2,0,243);
                     realpos = 1023 - pos;
                     Serial.print(realpos);
                     Serial.println();
@@ -125,10 +113,8 @@ void loop(){
                     
               case 'r':
                     //Serial.println("case r");
-                    for (int i=0; i< 1; i++){
-                        userInput[i] = (int) Serial.read();
-                    }
-                    pos = constrain(userInput[0],0,180);
+                    
+                    pos = constrain(inputByte_2,0,180);
                     
                     Serial.print(pos);
                     Serial.println();
@@ -136,13 +122,11 @@ void loop(){
                     
               case 'x':
                     //Serial.println("case x");
-                    for (int i=0; i< 1; i++){
-                        userInput[i] = (int) Serial.read();
-                    }
-                    ext = int(userInput[0]);
+                    
+                    //ext = inputByte_2;
                     //Serial.println(ext);
                     
-                    frac = (float(ext) / float(10));
+                    frac = (float(inputByte_2) / float(10));
                               
                     next = (28800 * (frac));
                     Serial.print("next: ");
@@ -171,10 +155,8 @@ void loop(){
                     
               case 'g':
                     //Serial.println("case g");
-                    for (int i=0; i< 1; i++){
-                        userInput[i] = (int) Serial.read();
-                    }
-                    pos = constrain(userInput[0],0,173);
+                    
+                    pos = constrain(inputByte_2,0,173);
                     realpos = 1023 - pos;
                     Serial.print(realpos);
                     Serial.println();
@@ -182,13 +164,10 @@ void loop(){
                     
               case 'w':
                     //Serial.println("case w");
-                    for (int i=0;i<3;i++) {
-                        userInput[i] = (int) Serial.read();
-                    }
                     
-                    motor = userInput[0];
-                    motorDirection = userInput[1];
-                    motorSpeed = userInput[2];
+                    motor = inputByte_2;
+                    motorDirection = inputByte_3;
+                    motorSpeed = inputByte_4;
                     
                     switch (motor) {
                         case 1:
@@ -224,12 +203,9 @@ void loop(){
                     
               case 'b':
                     //Serial.println("case b");
-                    for (int i=0;i<2;i++) {
-                        userInput[i] = (int) Serial.read();
-                    }
                     
-                    motorDirection = userInput[0];
-                    motorSpeed = userInput[1];
+                    motorDirection = inputByte_2;
+                    motorSpeed = inputByte_3;
                     
                     if (motorDirection == 'f') {
                         Serial.print("both motors f ");
@@ -249,8 +225,12 @@ void loop(){
                     Serial.println("error no command");
                     break;
         }
-        */
-  
-  //delay(100);
+    inputByte_0 = 0;
+    inputByte_1 = 0;
+    inputByte_2 = 0;
+    inputByte_3 = 0;
+    inputByte_4 = 0;
+    inputByte_5 = 0;
+  }
    
 }
