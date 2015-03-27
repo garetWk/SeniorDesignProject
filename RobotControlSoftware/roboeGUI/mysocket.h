@@ -20,7 +20,6 @@ public slots:
     void writeMotorR(int value);
     void writeMotorLR(int value);
 
-    void writeServo(int id, int value);
     void writeElevation(int value);
     void writeRotation(int value);
     void writeExtend(int value);

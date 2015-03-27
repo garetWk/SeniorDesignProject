@@ -5,14 +5,16 @@ from time import gmtime
 import serial
 from os import system
 
+import struct
+
 import select
 
-serverIP = '10.88.211.244'
+serverIP = '192.168.0.101'
 serverPort = 50008
 
 usbport = '/dev/tty.usbmodemfa131'
 
-ser = serial.Serial(usbport,9600,timeout=None)
+#ser = serial.Serial(usbport,9600,timeout=None)
 
 
 
@@ -82,8 +84,11 @@ if __name__ == '__main__':
 
         if len(ready_to_read) > 0:
             
-            msg = connection.recv(1024).decode().split("-")
+            msg = connection.recv(11).decode()
             print(msg)
+            msg = msg.split('-')
+            print(msg)
+
 
             if msg[0] == 'e':
                 ser.write('e')
@@ -118,9 +123,7 @@ if __name__ == '__main__':
                     ser.write('f')
                 elif msg[1] == 'r':
                     ser.write('r')
-                ser.write(chr(int(msg[2])))
-          
-                
+                ser.write(chr(int(msg[2])))              
 
             
                 

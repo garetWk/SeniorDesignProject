@@ -26,13 +26,41 @@ void MySocket::writeMotorL(int value)
 {
     string msg;
     stringstream ss;
+    string filler;
+
+
+
+
+
     if(value >= 0){
-        ss << 'w' << '-' << '1' << '-' << 'f' << '-' << value;
+        int length = value/10;
+        cout<<length;
+        if(length == 0){
+            filler = "sss";
+        }
+        else if(length < 10){
+            filler = "ss";
+        }
+        else if(length >= 10){
+            filler="s";
+        }
+        ss << 'w' <<'-'<< '1' <<'-'<< 'f' <<'-'<< value <<'-'<< filler;
         msg = ss.str();
     }
     else{
         value = value * -1;
-        ss << 'w' << '-' << '1' << '-' << 'r' << '-' << value;
+        int length = value/10;
+        cout<<length;
+        if(length == 0){
+            filler = "sss";
+        }
+        else if(length < 10){
+            filler = "ss";
+        }
+        else if(length >= 10){
+            filler="s";
+        }
+        ss << 'w' <<'-'<< '1' <<'-'<< 'r' <<'-'<< value <<'-'<< filler;
         msg = ss.str();
     }
 
@@ -44,13 +72,40 @@ void MySocket::writeMotorR(int value)
 {
     string msg;
     stringstream ss;
+    string filler;
+
+
+
+
     if(value >= 0){
-        ss << 'w' << '-' << '2' << '-' << 'f' << '-' << value;
+        int length = value/10;
+        cout<<length;
+        if(length == 0){
+            filler = "sss";
+        }
+        else if(length < 10){
+            filler = "ss";
+        }
+        else if(length >= 10){
+            filler="s";
+        }
+        ss << 'w' <<'-'<< '2' <<'-'<< 'f' <<'-'<< value <<'-'<< filler;
         msg = ss.str();
     }
     else{
         value = value * -1;
-        ss << 'w' << '-' << '2' << '-' << 'r' << '-' << value;
+        int length = value/10;
+        cout<<length;
+        if(length == 0){
+            filler = "sss";
+        }
+        else if(length < 10){
+            filler = "ss";
+        }
+        else if(length >= 10){
+            filler="s";
+        }
+        ss << 'w' <<'-'<< '2' <<'-'<< 'r' <<'-'<< value <<'-'<< filler;
         msg = ss.str();
     }
 
@@ -61,35 +116,65 @@ void MySocket::writeMotorLR(int value)
 {
     string msg;
     stringstream ss;
+    string filler;
+
+
+
+
     if(value >= 0){
-        ss << 'b' << '-' << 'f' << '-' << value;
+        int length = value/10;
+        cout<<length;
+        if(length == 0){
+            filler = "sssss";
+        }
+        else if(length < 10){
+            filler = "ssss";
+        }
+        else if(length >= 10){
+            filler="sss";
+        }
+        ss << 'b' <<'-'<< 'f' <<'-'<< value <<'-'<< filler;
         msg = ss.str();
     }
     else{
         value = value * -1;
-        ss << 'b' << '-' << 'r' << '-' << value;
+        int length = value/10;
+        cout<<length;
+        if(length == 0){
+            filler = "sssss";
+        }
+        else if(length < 10){
+            filler = "ssss";
+        }
+        else if(length >= 10){
+            filler="sss";
+        }
+        ss << 'b' <<'-'<< 'r' <<'-'<< value <<'-'<< filler;
         msg = ss.str();
     }
 
     socket->write(msg.c_str());
 }
 
-void MySocket::writeServo(int id, int value)
-{
-    string msg;
-    stringstream ss;
-
-    ss << 'g' << '-' << id << '-' << value;
-    msg = ss.str();
-
-    socket->write(msg.c_str());
-}
 
 void MySocket::writeElevation(int value){
     string msg;
     stringstream ss;
+    string filler;
 
-    ss << 'e' << '-' << value;
+    int length = value/10;
+    cout<<length;
+    if(length == 0){
+        filler = "sssssss";
+    }
+    else if(length < 10){
+        filler = "ssssss";
+    }
+    else if(length >= 10){
+        filler="sssss";
+    }
+
+    ss << 'e' <<'-'<< value <<'-'<< filler;
     msg = ss.str();
 
     socket->write(msg.c_str());
@@ -98,8 +183,21 @@ void MySocket::writeElevation(int value){
 void MySocket::writeRotation(int value){
     string msg;
     stringstream ss;
+    string filler;
 
-    ss << 'r' << '-' << value;
+    int length = value/10;
+    cout<<length;
+    if(length == 0){
+        filler = "sssssss";
+    }
+    else if(length < 10){
+        filler = "ssssss";
+    }
+    else if(length >= 10){
+        filler="sssss";
+    }
+
+    ss << 'r' <<'-'<< value <<'-'<< filler;
     msg = ss.str();
 
     socket->write(msg.c_str());
@@ -108,8 +206,21 @@ void MySocket::writeRotation(int value){
 void MySocket::writeExtend(int value){
     string msg;
     stringstream ss;
+    string filler;
 
-    ss << 'x' << '-' << value;
+    int length = value/10;
+    cout<< length;
+    if(length == 0){
+        filler = "sssssss";
+    }
+    else if(length < 10){
+        filler = "ssssss";
+    }
+    else if(length >= 10){
+        filler="sssss";
+    }
+
+    ss << 'x' <<'-'<< value <<'-'<< filler;
     msg = ss.str();
 
     socket->write(msg.c_str());
@@ -118,8 +229,21 @@ void MySocket::writeExtend(int value){
 void MySocket::writeGrip(int value){
     string msg;
     stringstream ss;
+    string filler;
 
-    ss << 'g' << '-' << value;
+    int length = value/10;
+    cout<<length;
+    if(length == 0){
+        filler = "sssssss";
+    }
+    else if(length < 10){
+        filler = "ssssss";
+    }
+    else if(length >= 10){
+        filler="sssss";
+    }
+
+    ss << 'g' <<'-'<< value <<'-'<< filler;
     msg = ss.str();
 
     socket->write(msg.c_str());

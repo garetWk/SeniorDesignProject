@@ -187,15 +187,17 @@ void loop(){
                     
                     frac = (float(ext) / float(10));
                               
-                    next = (72000 * (frac));
+                    next = (28800 * (frac));
+                    Serial.println(next);
+                    Serial.println(prev);
                     
                     if (next > prev){
                         digitalWrite(direction_pin_stepper, LOW);
                         while (next > prev){
                             digitalWrite(step_pin_stepper, HIGH);
-                            delayMicroseconds(480);
+                            delayMicroseconds(800);
                             digitalWrite(step_pin_stepper, LOW);
-                            delayMicroseconds(480);
+                            delayMicroseconds(800);
                             
                             prev = prev + 1;
                         }
@@ -205,9 +207,9 @@ void loop(){
                         digitalWrite(direction_pin_stepper, HIGH);
                         while (next < prev){
                             digitalWrite(step_pin_stepper, HIGH);
-                            delayMicroseconds(480);
+                            delayMicroseconds(800);
                             digitalWrite(step_pin_stepper, LOW);
-                            delayMicroseconds(480);
+                            delayMicroseconds(800);
                             
                             prev = prev - 1;
                         }
