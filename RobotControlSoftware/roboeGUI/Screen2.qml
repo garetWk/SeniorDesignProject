@@ -114,7 +114,7 @@ Item {
         anchors.margins: 15
 
         stepSize: 5
-        value: 0
+        value: 205
         minimumValue: 0
         maximumValue: 243
         Layout.fillHeight: false
@@ -139,7 +139,7 @@ Item {
         anchors.horizontalCenter: sliderHorizontal2.horizontalCenter
         anchors.margins: 15
 
-        text: qsTr("0")
+        text: qsTr("205")
         font.pixelSize: 50
     }
 
