@@ -28,6 +28,7 @@ public slots:
 
 private:
     QTcpSocket *socket;
+    int previousValue;
 };
 
 #endif // MYSOCKET_H

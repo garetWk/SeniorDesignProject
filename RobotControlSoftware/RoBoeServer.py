@@ -9,7 +9,7 @@ import struct
 
 import select
 
-serverIP = '10.88.222.105'
+serverIP = '192.168.0.100'
 serverPort = 50008
 
 usbport = '/dev/tty.usbmodemfa131'
@@ -95,6 +95,7 @@ if __name__ == '__main__':
                         ser.write(chr(4))
                         ser.write(chr(4))
                         ser.write(chr(4))
+                        print("done elevation")
 
                     
                     if msg[0] == 'r':

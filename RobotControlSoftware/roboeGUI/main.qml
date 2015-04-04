@@ -2,6 +2,10 @@ import QtQuick 2.4
 import QtQuick.Controls 1.3
 import QtQuick.Window 2.2
 import QtQuick.Dialogs 1.2
+import QtQuick.Layouts 1.0
+import QtLocation 5.4
+import QtPositioning 5.4
+import QtSensors 5.0
 
 
 ApplicationWindow {
@@ -57,6 +61,33 @@ ApplicationWindow {
 
 
                 sliderVertical2.value: checkBox1.checked ? sliderVertical1.value : sliderVertical2.value
+
+                accelerometerItem.visible: checkBox2.checked ? true : false
+                accel.active: checkBox2.checked ? true : false
+                accel.onReadingChanged: {
+                    //var x = calcPosition((accel.reading.x*50))
+                    var y = calcPosition((accel.reading.y*50))
+                    socket.writeMotorLR(y)
+
+                }
+
+                function calcPosition(value)
+                {
+                    var nval = Math.floor(value/5) * -5
+
+                    if(nval >= 255)
+                        return 255
+                    else if(nval <= -255)
+                        return -255
+                    else if( nval >= 20 )
+                        return nval
+                    else if( nval <= -20 )
+                        return nval
+                    else
+                        return 0
+                }
+
+
 
             },
             Screen2{

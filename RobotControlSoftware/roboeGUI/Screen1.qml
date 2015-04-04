@@ -5,6 +5,7 @@ import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.0
 import QtLocation 5.4
 import QtPositioning 5.4
+import QtSensors 5.0
 
 Item {
     id: item1
@@ -21,8 +22,12 @@ Item {
     property alias text1: text1
     property alias text2: text2
     property alias checkBox1: checkBox1
-    property alias text3: text3
+    property alias checkBox2: checkBox2
     property alias sliderHorizontal1: sliderHorizontal1
+    property alias text3: text3
+    property alias accelerometerItem: accelerometerItem
+    property alias accel: accel
+
 
     Slider {
         id: sliderVertical1
@@ -43,6 +48,20 @@ Item {
         orientation: Qt.Vertical
     }
 
+    Text {
+        id: text1
+
+        anchors.left: sliderVertical1.right
+        anchors.leftMargin: 15
+        anchors.top: parent.top
+        anchors.topMargin: 15
+
+        text: qsTr("0")
+        font.pixelSize: 50
+        Layout.fillWidth: false
+        Layout.fillHeight: false
+    }
+
     Slider {
         id: sliderVertical2
         tickmarksEnabled: true
@@ -58,65 +77,6 @@ Item {
         anchors.top: parent.top
         anchors.topMargin: 15
         orientation: Qt.Vertical
-    }
-
-    Row {
-        id: row1
-        Layout.fillWidth: true
-        Layout.fillHeight: false
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 50
-        anchors.horizontalCenter: parent.horizontalCenter
-        spacing: 50
-
-        Button {
-            id: button1
-            text: qsTr("Main")
-        }
-
-        Button {
-            id: button2
-            text: qsTr("Screen1")
-        }
-
-        Button {
-            id: button3
-            text: qsTr("Screen2")
-        }
-    }
-
-    CheckBox {
-        id: checkBox1
-        checked: false
-        anchors.top: text1.bottom
-        anchors.topMargin: 15
-        anchors.left: sliderVertical1.right
-        anchors.leftMargin: 15
-        text: qsTr("Locked")
-    }
-
-    /*Text {
-        id: textField1
-        anchors.centerIn: parent
-
-        text: "Screen 1"
-        font.pointSize: 24
-        Layout.fillWidth: false
-        Layout.fillHeight: false
-    }*/
-
-    Text {
-        id: text1
-
-        anchors.left: sliderVertical1.right
-        anchors.leftMargin: 15
-        anchors.top: parent.top
-        anchors.topMargin: 15
-
-        text: qsTr("0")
-        font.pixelSize: 50
-        Layout.fillWidth: false
-        Layout.fillHeight: false
     }
 
     Text {
@@ -171,5 +131,124 @@ Item {
         font.pixelSize: 50
     }
 
+    Row {
+        id: row1
+        Layout.fillWidth: true
+        Layout.fillHeight: false
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 50
+        anchors.horizontalCenter: parent.horizontalCenter
+        spacing: 50
+
+        Button {
+            id: button1
+            text: qsTr("Main")
+        }
+
+        Button {
+            id: button2
+            text: qsTr("Screen1")
+        }
+
+        Button {
+            id: button3
+            text: qsTr("Screen2")
+        }
+    }
+
+    CheckBox {
+        id: checkBox1
+        checked: false
+        anchors.top: text1.bottom
+        anchors.topMargin: 15
+        anchors.left: sliderVertical1.right
+        anchors.leftMargin: 15
+        text: qsTr("Locked")
+    }
+
+    CheckBox {
+        id: checkBox2
+        checked: false
+        anchors.top: text3.bottom
+        anchors.topMargin: 15
+        anchors.left: sliderVertical1.right
+        anchors.leftMargin: 15
+        text: qsTr("accel")
+    }
+
+    Item {
+        id: accelerometerItem
+
+        Layout.fillHeight: true
+        Layout.fillWidth: true
+
+        anchors.bottom: row1.top
+        anchors.left: sliderVertical1.right
+        anchors.right: sliderVertical2.left
+        anchors.top: checkBox2.bottom
+
+        anchors.margins: 15
+
+        visible: flase
+
+        Accelerometer {
+            id: accel
+            dataRate: 10
+            active: fasle
+        }
+
+        Text {
+            id: acceltext1
+            anchors.bottom: parent.bottom
+            anchors.margins: 15
+
+            text: accel.active ? qsTr("z: " + calcPosition((accel.reading.z*50))) : qsTr("not active")
+            font.pixelSize: 50
+            Layout.fillWidth: false
+            Layout.fillHeight: false
+        }
+
+        Text {
+            id: acceltext2
+
+            anchors.bottom: acceltext1.top
+            anchors.margins: 15
+
+            text: accel.active ? qsTr("y: " + calcPosition((accel.reading.y*50))) : qsTr("not active")
+            font.pixelSize: 50
+            Layout.fillWidth: false
+            Layout.fillHeight: false
+        }
+
+        Text {
+            id: acceltext3
+
+            anchors.bottom: acceltext2.top
+            anchors.margins: 15
+
+            Layout.fillHeight: false
+            Layout.fillWidth: false
+
+            text: accel.active ? qsTr("x: " + calcPosition((accel.reading.x*50))) : qsTr("not active")
+            font.pixelSize: 50
+        }
+    }
+    function calcPosition(value)
+    {
+        var nval = Math.floor(value/5) * -5
+
+        if(nval >= 255)
+            return 255
+        else if(nval <= -255)
+            return -255
+        else if( nval >= 20 )
+            return nval
+        else if( nval <= -20 )
+            return nval
+        else
+            return 0
+    }
 }
+
+
 

@@ -8,6 +8,7 @@ using namespace std;
 MySocket::MySocket(QObject *parent) : QObject(parent)
 {
     socket = new QTcpSocket(this);
+    previousValue = 0;
 }
 
 MySocket::~MySocket()
@@ -118,42 +119,44 @@ void MySocket::writeMotorLR(int value)
     stringstream ss;
     string filler;
 
-
-
-
-    if(value >= 0){
-        int length = value/10;
-        cout<<length;
-        if(length == 0){
-            filler = "sssss";
+    if(value != previousValue)
+    {
+        previousValue = value;
+        if(value >= 0){
+            int length = value/10;
+            cout<<length;
+            if(length == 0){
+                filler = "sssss";
+            }
+            else if(length < 10){
+                filler = "ssss";
+            }
+            else if(length >= 10){
+                filler="sss";
+            }
+            ss << 'b' <<'-'<< 'f' <<'-'<< value <<'-'<< filler;
+            msg = ss.str();
         }
-        else if(length < 10){
-            filler = "ssss";
+        else{
+            value = value * -1;
+            int length = value/10;
+            cout<<length;
+            if(length == 0){
+                filler = "sssss";
+            }
+            else if(length < 10){
+                filler = "ssss";
+            }
+            else if(length >= 10){
+                filler="sss";
+            }
+            ss << 'b' <<'-'<< 'r' <<'-'<< value <<'-'<< filler;
+            msg = ss.str();
         }
-        else if(length >= 10){
-            filler="sss";
-        }
-        ss << 'b' <<'-'<< 'f' <<'-'<< value <<'-'<< filler;
-        msg = ss.str();
+
+        socket->write(msg.c_str());
+
     }
-    else{
-        value = value * -1;
-        int length = value/10;
-        cout<<length;
-        if(length == 0){
-            filler = "sssss";
-        }
-        else if(length < 10){
-            filler = "ssss";
-        }
-        else if(length >= 10){
-            filler="sss";
-        }
-        ss << 'b' <<'-'<< 'r' <<'-'<< value <<'-'<< filler;
-        msg = ss.str();
-    }
-
-    socket->write(msg.c_str());
 }
 
 
