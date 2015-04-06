@@ -18,7 +18,6 @@ MySocket::~MySocket()
 
 void MySocket::connect(QString host, QString port)
 {
-
     socket->connectToHost(host,port.toInt());
     //cout << "connected to host: " << host.toStdString() << endl;
 }
@@ -28,10 +27,6 @@ void MySocket::writeMotorL(int value)
     string msg;
     stringstream ss;
     string filler;
-
-
-
-
 
     if(value >= 0){
         int length = value/10;
@@ -65,7 +60,6 @@ void MySocket::writeMotorL(int value)
         msg = ss.str();
     }
 
-
     socket->write(msg.c_str());
 }
 
@@ -74,9 +68,6 @@ void MySocket::writeMotorR(int value)
     string msg;
     stringstream ss;
     string filler;
-
-
-
 
     if(value >= 0){
         int length = value/10;
@@ -155,7 +146,6 @@ void MySocket::writeMotorLR(int value)
         }
 
         socket->write(msg.c_str());
-
     }
 }
 

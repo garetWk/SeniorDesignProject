@@ -53,18 +53,6 @@ Item {
         font.pixelSize: 50
     }
 
-
-
-
-
-    /*TextField {
-        id: textField1
-        anchors.centerIn: parent
-        text: "Screen2"
-        font.pointSize: 14
-        placeholderText: qsTr("Text Field")
-    }*/
-
     Row {
         id: row1
         Layout.fillWidth: true
@@ -169,6 +157,5 @@ Item {
         text: qsTr("0")
         font.pixelSize: 50
     }
-
 }
 

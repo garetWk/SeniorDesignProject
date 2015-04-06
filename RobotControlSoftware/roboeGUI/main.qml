@@ -14,23 +14,6 @@ ApplicationWindow {
     height: 640
     visible: true
 
-    /*
-    menuBar: MenuBar {
-        Menu {
-            title: qsTr("&File")
-            MenuItem {
-                text: qsTr("&Open")
-                onTriggered: messageDialog.show(qsTr("Open action triggered"));
-            }
-            MenuItem {
-                text: qsTr("E&xit")
-                onTriggered: Qt.quit();
-            }
-        }
-    }
-    */
-
-
     MainScreen {
         id: mainScreen
         anchors.fill: parent
@@ -59,16 +42,13 @@ ApplicationWindow {
                     socket.writeRotation(sliderHorizontal1.value)
                 }
 
-
                 sliderVertical2.value: checkBox1.checked ? sliderVertical1.value : sliderVertical2.value
 
                 accelerometerItem.visible: checkBox2.checked ? true : false
                 accel.active: checkBox2.checked ? true : false
                 accel.onReadingChanged: {
-                    //var x = calcPosition((accel.reading.x*50))
                     var y = calcPosition((accel.reading.y*50))
                     socket.writeMotorLR(y)
-
                 }
 
                 function calcPosition(value)
@@ -86,9 +66,6 @@ ApplicationWindow {
                     else
                         return 0
                 }
-
-
-
             },
             Screen2{
                 id:screen2
@@ -112,7 +89,6 @@ ApplicationWindow {
                     text4.text = sliderHorizontal3.value
                     socket.writeGrip(sliderHorizontal3.value)
                 }
-
             }
         ]
 
@@ -124,18 +100,5 @@ ApplicationWindow {
                              button4.enabled = false;
                              button2.enabled = true;
                              button3.enabled = true  }
-
-    }
-
-
-
-    MessageDialog {
-        id: messageDialog
-        title: qsTr("May I have your attention, please?")
-
-        function show(caption) {
-            messageDialog.text = caption;
-            messageDialog.open();
-        }
     }
 }

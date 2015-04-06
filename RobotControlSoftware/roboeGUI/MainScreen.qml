@@ -20,7 +20,6 @@ Rectangle {
     property alias textField2: textField2
     property alias button4: button4
 
-
     Item {
         id: mainItem
         Layout.fillHeight: false
@@ -112,9 +111,6 @@ Rectangle {
             anchors.margins: 15
             text: qsTr("Connect Now")
         }
-
-
     }
-
 }
 

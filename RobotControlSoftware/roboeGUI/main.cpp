@@ -23,20 +23,19 @@ int main(int argc, char *argv[])
     MySocket socket;
     engine.rootContext()->setContextProperty("socket",&socket);
 
-
     /*
     if (QSslSocket::supportsSsl()) {
 
         cout << "start socket configure" << endl;
         QSslSocket socket;
-        //QSslCertificate ca_cert;
+        QSslCertificate ca_cert;
 
         socket.setProtocol(QSsl::AnyProtocol);
         socket.setPrivateKey(QStringLiteral("./client.key"));
         socket.setLocalCertificate(QStringLiteral("./client.crt"));
 
-        //ca_cert.fromPath(QStringLiteral("/Users/gwkaiser/Desktop/server.crt"));
-        //socket.addCaCertificate(ca_cert);
+        ca_cert.fromPath(QStringLiteral("/Users/gwkaiser/Desktop/server.crt"));
+        socket.addCaCertificate(ca_cert);
 
         socket.addCaCertificates(QStringLiteral("./server.crt"));
 
@@ -54,7 +53,6 @@ int main(int argc, char *argv[])
 
     }
     */
-
 
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 

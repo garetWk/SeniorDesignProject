@@ -28,7 +28,6 @@ Item {
     property alias accelerometerItem: accelerometerItem
     property alias accel: accel
 
-
     Slider {
         id: sliderVertical1
         updateValueWhileDragging: true
@@ -233,6 +232,7 @@ Item {
             font.pixelSize: 50
         }
     }
+
     function calcPosition(value)
     {
         var nval = Math.floor(value/5) * -5

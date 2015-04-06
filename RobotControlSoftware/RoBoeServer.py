@@ -35,8 +35,6 @@ if __name__ == '__main__':
     serverTCP = socket(AF_INET, SOCK_STREAM)
     serverTCP.bind((serverIP,serverPort))
     serverTCP.listen(1)
-
-    serverUDP = socket(AF_INET, SOCK_DGRAM)
     
     print("started")
     print("at host: " + str(serverIP) + "port: " + str(serverPort))
