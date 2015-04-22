@@ -9,12 +9,12 @@ import struct
 
 import select
 
-serverIP = '192.168.0.100'
+serverIP = '10.88.217.112'
 serverPort = 50008
 
 usbport = '/dev/tty.usbmodemfa131'
 
-#ser = serial.Serial(usbport,115200,timeout=None)
+ser = serial.Serial(usbport,115200,timeout=None)
 
 
 
@@ -36,7 +36,7 @@ if __name__ == '__main__':
     serverTCP.bind((serverIP,serverPort))
     serverTCP.listen(1)
     
-    print("started")
+    print "started"
     print("at host: " + str(serverIP) + "port: " + str(serverPort))
 
     inputs = [ serverTCP ]
@@ -85,7 +85,7 @@ if __name__ == '__main__':
                     print(msg)
                     msg = msg.split('-')
                     #print(msg)
-                    '''
+                    
                     if msg[0] == 'e':
                         ser.write(chr(16))
                         ser.write('e')
@@ -144,7 +144,7 @@ if __name__ == '__main__':
                         ser.write(chr(int(msg[2])))
                         ser.write(chr(4))
                         ser.write(chr(4))
-                    '''
+                    
                    
                 else:
                     print('closing connection ', address)
